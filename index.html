@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 광주 청년(YOUTH) AI 솔버톤</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css">
+<style>
+@property --beam-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes beamspin { to { --beam-angle: 360deg; } }
+@keyframes kenburns { 0% { transform: scale(1.05) translate(0,0); } 50% { transform: scale(1.13) translate(-1.5%,-1.2%); } 100% { transform: scale(1.05) translate(0,0); } }
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: #081040; color: #fff;
+  font-family: 'SUIT Variable', 'SUIT', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+a { color: #ccd6ff; text-decoration: none; }
+a:hover { color: #fff; }
+::selection { background: rgba(143,163,255,0.5); }
+
+/* ---- glass card + hover beam ---- */
+.glass {
+  position: relative; border-radius: 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+.glass.bright { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.22); }
+.beam {
+  position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px; opacity: 0;
+  background: conic-gradient(from var(--beam-angle,0deg), transparent 0%, transparent 72%, rgba(143,163,255,0.95) 86%, #fff 93%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none; transition: opacity 0.4s ease;
+}
+.glass:hover > .beam { opacity: 1; animation: beamspin 3.4s linear infinite; }
+.ring {
+  position: absolute; inset: -2.5px; border-radius: inherit; padding: 3px; opacity: 1;
+  background: conic-gradient(from var(--beam-angle,0deg), #f4f7ff 0%, #a8b6e4 22%, #ffffff 48%, #96a6da 72%, #f4f7ff 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude; animation: beamspin 7s linear infinite;
+  pointer-events: none; filter: drop-shadow(0 0 7px rgba(190,205,255,0.5));
+}
+
+/* ---- section scaffolding ---- */
+section[id], header#top { scroll-margin-top: 80px; }
+.wrap { position: relative; z-index: 2; max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+.sec { position: relative; background: transparent; padding: 110px 40px; }
+.eyebrow { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; color: #8fa3ff; }
+.sec h2 { margin: 0; font-size: clamp(34px, 4.4vw, 54px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.15; text-wrap: balance; }
+.lede { margin: 0; font-size: 18px; line-height: 1.7; color: #c3cdfa; text-wrap: pretty; }
+.sechead { max-width: 680px; display: flex; flex-direction: column; gap: 18px; }
+.grid { display: grid; gap: 24px; }
+
+.herosub { white-space: nowrap; }
+.oneline { white-space: nowrap; text-wrap: nowrap; }
+@media (max-width: 1200px) { .oneline { white-space: normal !important; text-wrap: balance !important; } }
+.logochip {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; border-radius: 10px; padding: 7px 13px; height: 44px; box-sizing: border-box;
+}
+.logochip img { max-height: 27px; max-width: 138px; object-fit: contain; display: block; }
+@media (max-width: 960px) { .herosub { white-space: normal; } }
+
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.2,0.6,0.2,1), transform 0.9s cubic-bezier(0.2,0.6,0.2,1); }
+.reveal.on { opacity: 1; transform: translateY(0); }
+
+.btn-primary { background: #fff; color: #0c1670; font-weight: 800; border-radius: 999px; display: inline-block; }
+.btn-ghost { border: 1px solid rgba(255,255,255,0.4); color: #fff; font-weight: 600; border-radius: 999px; backdrop-filter: blur(8px); display: inline-block; }
+
+/* ---- formal overview table ---- */
+.ovtable { width: 100%; border-collapse: collapse; font-size: 16px; }
+.ovtable th, .ovtable td { padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left; vertical-align: top; line-height: 1.6; }
+.ovtable tr:last-child th, .ovtable tr:last-child td { border-bottom: 0; }
+.ovtable th { width: 168px; font-weight: 700; color: #8fa3ff; letter-spacing: 0.04em; white-space: nowrap; font-size: 14.5px; padding-top: 21px; }
+.ovtable td { color: #e6ebff; }
+.ovtable td small { display: block; margin-top: 4px; color: #aab8ff; font-size: 13.5px; }
+
+/* ---- nav / menu ---- */
+.hamburger { display: none; }
+.menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.32s ease; }
+.menu-overlay.open { opacity: 1; pointer-events: auto; }
+.menu-overlay a { transform: translateY(14px); opacity: 0; transition: transform 0.4s cubic-bezier(0.2,0.6,0.2,1), opacity 0.4s ease; }
+.menu-overlay.open a { transform: translateY(0); opacity: 1; }
+.mobilebar { display: none; }
+
+/* ---- apply toast ---- */
+#toast {
+  position: fixed; left: 50%; bottom: 90px; transform: translate(-50%, 20px); z-index: 90;
+  background: rgba(255,255,255,0.96); color: #0c1670; font-weight: 700; font-size: 15px;
+  padding: 14px 26px; border-radius: 999px; box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  opacity: 0; pointer-events: none; transition: opacity 0.35s ease, transform 0.35s ease; white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 720px) {
+  nav { padding: 11px 18px !important; }
+  nav a.navitem, nav a.navcta { display: none !important; }
+  .hamburger { display: flex !important; }
+  .mobilebar { display: flex !important; }
+  body { padding-bottom: 60px; }
+  .sec { padding: 80px 20px !important; }
+  .sec h2 { font-size: 34px !important; }
+  .glass h3 { font-size: 23px !important; }
+  .swipe { display: flex !important; grid-template-columns: none !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px !important; margin: 0 -20px; padding: 4px 20px 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .swipe::-webkit-scrollbar { display: none; }
+  .swipe > .glass { flex: 0 0 84%; scroll-snap-align: center; }
+  header#top > .wrap { padding: 116px 20px 56px !important; gap: 36px !important; }
+  header#top h1 { font-size: clamp(26px, 7.8vw, 38px) !important; }
+  .photo { opacity: 0.5 !important; }
+  .photo.hero { width: 115% !important; right: -12% !important; top: auto !important; bottom: 4% !important; opacity: 0.85 !important; }
+  .photo.factory { width: 96% !important; right: -6% !important; top: -8% !important; opacity: 0.8 !important; }
+  .photo.facility { width: 130% !important; left: -15% !important; right: auto !important; opacity: 0.9 !important; }
+  .countdown { flex-direction: column; align-items: flex-start !important; gap: 16px !important; padding: 20px 22px !important; }
+  .countdown .cd-num { font-size: 32px !important; }
+  .hero-cta { flex-wrap: wrap; }
+  .hero-cta a { flex: 1 1 auto; text-align: center; }
+  .herodate { font-size: 13.5px !important; }
+  .logoband { gap: 10px !important; padding: 22px 16px !important; }
+  .logochip { height: 40px !important; padding: 6px 12px !important; }
+  .logochip img { max-height: 24px !important; max-width: 120px !important; }
+  .ovtable th { width: 96px; padding: 14px 12px; }
+  .ovtable td { padding: 14px 12px; font-size: 15px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav style="position: fixed; top: 0; left: 0; right: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; background: rgba(12,22,112,0.55); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,0.1)">
+  <a href="#top" style="font-weight: 800; font-size: 17px; letter-spacing: -0.01em; color: #fff">광주 청년 <span style="color: #8fa3ff">AI 솔버톤</span></a>
+  <div style="display: flex; align-items: center; gap: 26px; font-size: 14px; font-weight: 500">
+    <a href="#about" class="navitem">소개</a>
+    <a href="#overview" class="navitem">모집요강</a>
+    <a href="#track" class="navitem">트랙</a>
+    <a href="#schedule" class="navitem">일정</a>
+    <a href="#prize" class="navitem">시상</a>
+    <a href="#join" class="navitem">참가안내</a>
+    <a href="#contact" class="navitem">문의</a>
+    <a href="#" class="navcta apply" style="color: #0c1670; background: #fff; padding: 9px 18px; border-radius: 999px; font-weight: 700">참가 신청</a>
+  </div>
+  <button class="hamburger" aria-label="메뉴 열기" style="width: 42px; height: 42px; align-items: center; justify-content: center; flex-direction: column; gap: 5px; background: transparent; border: 0; cursor: pointer; padding: 0">
+    <span class="bar" style="display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: transform 0.3s ease"></span>
+    <span class="bar" style="display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: opacity 0.2s ease"></span>
+    <span class="bar" style="display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: transform 0.3s ease"></span>
+  </button>
+</nav>
+
+<!-- mobile full-screen menu -->
+<div class="menu-overlay" style="position: fixed; inset: 0; z-index: 58; background: rgba(8,14,54,0.94); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 0 32px">
+  <a href="#about" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; padding: 10px 0; color: #fff">소개</a>
+  <a href="#overview" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; padding: 10px 0; color: #fff">모집요강</a>
+  <a href="#track" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; padding: 10px 0; color: #fff">트랙</a>
+  <a href="#schedule" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; padding: 10px 0; color: #fff">일정</a>
+  <a href="#prize" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; padding: 10px 0; color: #fff">시상</a>
+  <a href="#join" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; padding: 10px 0; color: #fff">참가안내</a>
+  <a href="#contact" style="font-size: 32px; font-weight: 800; letter-spacing: -0.02em; padding: 10px 0; color: #fff">문의</a>
+  <a href="#" class="apply" style="margin-top: 18px; align-self: flex-start; background: #fff; color: #0c1670; font-weight: 800; font-size: 18px; padding: 15px 32px; border-radius: 999px">참가 신청하기</a>
+</div>
+
+<!-- mobile bottom D-day bar -->
+<div class="mobilebar" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 57; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 18px calc(11px + env(safe-area-inset-bottom)); background: rgba(10,18,72,0.86); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-top: 1px solid rgba(255,255,255,0.14)">
+  <div style="display: flex; align-items: baseline; gap: 8px; font-variant-numeric: tabular-nums">
+    <span style="font-size: 18px; font-weight: 800; color: #fff">D-<span class="dd-num">--</span></span>
+    <span style="font-size: 12.5px; font-weight: 600; color: #aab8ff">9. 3(목) 10:00</span>
+  </div>
+  <a href="#" class="apply" style="background: #fff; color: #0c1670; font-weight: 800; font-size: 14px; padding: 10px 20px; border-radius: 999px; white-space: nowrap">참가 신청</a>
+</div>
+
+<!-- fixed cosmic backdrop + grain -->
+<div style="position: fixed; inset: 0; z-index: -1; background: #081040 url('uploads/bg-cosmic-rich.jpg') center / cover no-repeat; pointer-events: none"></div>
+<div style="position: fixed; inset: 0; z-index: 55; pointer-events: none; opacity: 0.04; mix-blend-mode: overlay; background: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 3px 3px"></div>
+
+<!-- apply toast -->
+<div id="toast">온라인 접수는 7. 23(목) 오픈 예정입니다</div>
+
+<!-- ============ HERO ============ -->
+<header id="top" style="position: relative; min-height: 100vh; display: flex; align-items: stretch">
+  <div class="photo hero" data-parallax="0.1" style="position: absolute; right: 0; top: 34%; width: 63%; aspect-ratio: 1296 / 864; pointer-events: none; overflow: hidden">
+    <img src="uploads/img-students.png" alt="광주 청년 AI 솔버톤 현장" style="width: 100%; height: 100%; opacity: 0.9; animation: kenburns 26s ease-in-out infinite">
+  </div>
+
+  <div class="wrap" style="width: 100%; padding: 140px 40px 64px; justify-content: space-between; gap: 44px">
+    <div style="display: flex; flex-direction: column; gap: 24px; max-width: 760px">
+      <p style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #ccd6ff">중진공 호남연수원 × 광주대학교 앵커(RISE)사업단 × 광주청년일자리스테이션 상무 × 광주경영자총협회 × GIST AI 대학원</p>
+      <h1 style="margin: 0; font-size: clamp(36px, 5.4vw, 76px); line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; white-space: nowrap">AI로 푸는 광주의 내일</h1>
+      <p class="herosub" style="margin: 0; font-size: 19px; line-height: 1.6; color: #dde4ff">2026 광주 청년(YOUTH) AI 솔버톤<br>— 지역 사회와 기업의 실제 현안을 1박 2일 동안 AI로 해결하는 실전형 해커톤.</p>
+      <p class="herodate" style="margin: 0; font-size: 17px; font-weight: 600; color: #fff; white-space: nowrap">2026. 9. 3(목) – 9. 4(금) · 중진공 호남연수원 컨벤션홀</p>
+      <div class="hero-cta" style="display: flex; gap: 14px; margin-top: 8px">
+        <a href="#" class="btn-primary apply" style="font-size: 16px; padding: 15px 30px">참가 신청하기</a>
+        <a href="#overview" class="btn-ghost" style="font-size: 16px; padding: 15px 30px">모집요강 보기</a>
+      </div>
+    </div>
+
+    <!-- D-day countdown -->
+    <div class="glass countdown" style="align-self: flex-start; display: flex; align-items: center; gap: 36px; padding: 26px 38px">
+      <div class="ring"></div>
+      <p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; color: #ccd6ff">본선까지<br><span style="font-size: 12px; font-weight: 500">9. 3(목) 10:00</span></p>
+      <div style="display: flex; gap: 28px">
+        <div style="text-align: center"><p class="cd-num cd-dd" style="margin: 0; font-size: 44px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em">--</p><p style="margin: 2px 0 0; font-size: 12px; letter-spacing: 0.18em; color: #aab8ff">DAYS</p></div>
+        <div style="text-align: center"><p class="cd-num cd-hh" style="margin: 0; font-size: 44px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em">--</p><p style="margin: 2px 0 0; font-size: 12px; letter-spacing: 0.18em; color: #aab8ff">HRS</p></div>
+        <div style="text-align: center"><p class="cd-num cd-mm" style="margin: 0; font-size: 44px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em">--</p><p style="margin: 2px 0 0; font-size: 12px; letter-spacing: 0.18em; color: #aab8ff">MIN</p></div>
+        <div style="text-align: center"><p class="cd-num cd-ss" style="margin: 0; font-size: 44px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em">--</p><p style="margin: 2px 0 0; font-size: 12px; letter-spacing: 0.18em; color: #aab8ff">SEC</p></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 주최기관 로고 밴드 ============ -->
+<div class="reveal" style="position: relative; z-index: 2; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(8,14,54,0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px)">
+  <div class="logoband" style="max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px; padding: 26px 40px">
+    <span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; color: #8b97d9; text-transform: uppercase; margin-right: 8px">주최 · 협력</span>
+    <span class="logochip"><img src="uploads/logo-kosme-honam.png" alt="중진공 호남연수원"></span>
+    <span class="logochip"><img src="uploads/logo-gwangju-univ-rise.png" alt="광주대학교 앵커(RISE)사업단"></span>
+    <span class="logochip"><img src="uploads/logo-youthjobstation-sangmu.png" alt="광주청년일자리스테이션 상무"></span>
+    <span class="logochip"><img src="uploads/logo-gjef-navy.png" alt="광주경영자총협회"></span>
+    <span class="logochip"><img src="uploads/logo-gist-ai.jpg" alt="GIST AI 대학원"></span>
+    <span style="width: 1px; height: 30px; background: rgba(255,255,255,0.2); margin: 0 6px"></span>
+    <span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; color: #8b97d9; text-transform: uppercase; margin-right: 8px">후원</span>
+    <span class="logochip"><img src="uploads/logo-jngj.png" alt="전남광주특별시청"></span>
+    <span class="logochip"><img src="uploads/logo-navercloud.png" alt="네이버클라우드"></span>
+  </div>
+</div>
+
+<!-- ============ 01 소개 ============ -->
+<section id="about" class="sec">
+  <div class="wrap reveal">
+    <div class="sechead">
+      <p class="eyebrow">01 소개</p>
+      <h2 class="oneline" style="font-size: clamp(30px, 3.3vw, 45px); text-wrap: nowrap">문제를 직접 해결해 본 경험이, 곧 경쟁력이 됩니다</h2>
+      <p class="lede">생성형 AI와 바이브코딩의 확산으로 비전공자도 아이디어를 실제 서비스로 만드는 시대. 광주 청년에게 'AI로 문제를 직접 해결해 본 경험'은 그 자체로 취업 경쟁력이자 포트폴리오입니다.</p>
+    </div>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))">
+      <div class="glass" style="padding: 36px 32px; display: flex; flex-direction: column; gap: 12px">
+        <div class="beam"></div>
+        <p class="eyebrow" style="font-size: 13px; letter-spacing: 0.16em">역량</p>
+        <h3 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em">교육과 실전을 한 번에</h3>
+        <p style="margin: 0; font-size: 15.5px; line-height: 1.65; color: #c3cdfa">AI 사전 역량교육(1일 7h)과 실전 해커톤 본선(1박 2일)을 결합한 몰입형 프로그램으로, AI 활용과 문제해결 역량을 동시에 키웁니다.</p>
+      </div>
+      <div class="glass" style="padding: 36px 32px; display: flex; flex-direction: column; gap: 12px">
+        <div class="beam"></div>
+        <p class="eyebrow" style="font-size: 13px; letter-spacing: 0.16em">실효성</p>
+        <h3 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em">결과물이 실제로 쓰입니다</h3>
+        <p style="margin: 0; font-size: 15.5px; line-height: 1.65; color: #c3cdfa">우수 결과물은 행정 검토, 서비스 실증, 기업 도입으로 이어집니다. 광주의 실제 현안이 과제이기 때문입니다.</p>
+      </div>
+      <div class="glass" style="padding: 36px 32px; display: flex; flex-direction: column; gap: 12px">
+        <div class="beam"></div>
+        <p class="eyebrow" style="font-size: 13px; letter-spacing: 0.16em">연계</p>
+        <h3 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.01em">모집부터 채용까지</h3>
+        <p style="margin: 0; font-size: 15.5px; line-height: 1.65; color: #c3cdfa">주최·협력 5개 기관과 후원 2개 기관의 협업으로 모집–교육–본선–사후 연계까지 완결형 구조. 최우수팀에는 기업 채용 가점과 주최기관들의 표창이 주어집니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 모집요강 ============ -->
+<section id="overview" class="sec">
+  <div class="wrap reveal">
+    <div class="sechead">
+      <p class="eyebrow">02 모집요강</p>
+      <h2>한눈에 보는 대회 개요</h2>
+    </div>
+    <div class="glass" style="padding: 22px 28px">
+      <div class="beam"></div>
+      <table class="ovtable">
+        <tr><th>행사명</th><td>2026 광주 청년(YOUTH) AI 솔버톤</td></tr>
+        <tr><th>본선 일시</th><td>2026. 9. 3(목) ~ 9. 4(금) · 1박 2일<small>사전 역량교육(STEP 1) — 2026. 8. 22(토) · 1일(7h)</small></td></tr>
+        <tr><th>장소</th><td>중진공 호남연수원 컨벤션홀<small>사전 역량교육(STEP 1) — 광주고용복지플러스센터(미정)</small></td></tr>
+        <tr><th>참가 대상</th><td>전남광주통합특별시 소재 지역 청년 (만 39세 미만)<small>트랙 1(예비취업자) — 대학 재학·휴학, 졸업 후 취업 준비 중인 자 · 트랙 2(중소기업 재직자) — 고용보험 가입자 필수</small></td></tr>
+        <tr><th>모집 규모</th><td>16개 조 약 50명 내외 (조당 2~4인 자율 구성)</td></tr>
+        <tr><th>참가비</th><td>무료 <span style="color: #aab8ff">(숙박·식사·다과 포함)</span></td></tr>
+        <tr><th>접수 기간</th><td>2026. 7. 23(목) ~ 8. 19(수) · 약 4주<small>본선(9. 3~9. 4) 진출자 발표 — 2026. 8. 27(목)</small></td></tr>
+        <tr><th>참가자 특전</th><td>① 조별 ChatGPT 또는 Claude $100 계정 무료지원(1개월)<small>② AI 전문 멘토단 현장 티칭 제공</small></td></tr>
+        <tr><th>주최 · 협력</th><td>중진공 호남연수원 · 광주대학교 앵커(RISE)사업단 · 광주청년일자리스테이션 상무 · 광주경영자총협회 · GIST AI 대학원</td></tr>
+        <tr><th>후원</th><td>전남광주특별시청 · 네이버클라우드</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 트랙 ============ -->
+<section id="track" class="sec">
+  <div class="photo factory" data-parallax="0.07" style="position: absolute; right: -3%; top: -16%; width: 53%; aspect-ratio: 1147 / 819; pointer-events: none; z-index: 0; overflow: hidden">
+    <img src="uploads/img-factory.png" alt="스마트팩토리 자동화 라인" style="width: 100%; height: 100%; opacity: 0.8; animation: kenburns 30s ease-in-out infinite">
+  </div>
+  <div class="wrap reveal">
+    <div class="sechead">
+      <p class="eyebrow">03 트랙</p>
+      <h2>3개의 트랙,<br>스무 개 이상의 진짜 문제</h2>
+      <p class="lede">트랙별 문제 풀(문제 · 공공데이터 오픈 API · 참고 사이트)을 사전 제공하고, 조별로 희망하는 트랙 및 세부주제를 선택합니다.</p>
+    </div>
+    <div class="grid swipe" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))">
+      <div class="glass" style="border-radius: 24px; padding: 44px 40px; display: flex; flex-direction: column; gap: 16px">
+        <div class="beam"></div>
+        <p style="margin: 0; font-size: 60px; font-weight: 800; color: #8fa3ff; letter-spacing: -0.03em; line-height: 1">A</p>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.015em">지역 · 사회 · 일자리<br><span style="font-size: 19px; font-weight: 700; color: #ccd6ff">공공 정책 분야</span></h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.7; color: #c3cdfa">청년 유출 예방, 고령층 돌봄, 디지털 소외 교육, 교통 안전, 골목 상권 부흥, 취·창업 일자리 서비스, 사회 서비스 개선 등 정책 성격의 공공 분야 과제.</p>
+        <p style="margin: auto 0 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 14px; line-height: 1.6; color: #aab8ff">우수작은 전남광주특별시청 행정서비스 개선안 검토 및 일자리 기관 서비스 도입 검토</p>
+      </div>
+      <div class="glass" style="border-radius: 24px; padding: 44px 40px; display: flex; flex-direction: column; gap: 16px">
+        <div class="beam"></div>
+        <p style="margin: 0; font-size: 60px; font-weight: 800; color: #8fa3ff; letter-spacing: -0.03em; line-height: 1">B</p>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.015em">기업 실무 현안</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.7; color: #c3cdfa">① 사무 업무 효율화 — 발주 확인, 견적서 제작, 이메일 자동 안내, 챗봇, 마케팅 자동화, 리뷰 분석 등 ② 제조·생산 효율화 — 자재관리, 공정·품질(수율) 관리, 비전검사, 산업안전 등. 중진공 네트워크 수요조사로 접수한 진짜 현안들.</p>
+        <p style="margin: auto 0 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 14px; line-height: 1.6; color: #aab8ff">우수작은 기업 현안 도입 검토 + 해당 인재 기업 채용 가점 연계</p>
+      </div>
+      <div class="glass" style="border-radius: 24px; padding: 44px 40px; display: flex; flex-direction: column; gap: 16px">
+        <div class="beam"></div>
+        <p style="margin: 0; font-size: 60px; font-weight: 800; color: #8fa3ff; letter-spacing: -0.03em; line-height: 1">C</p>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.015em">자율 트랙</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.7; color: #c3cdfa">A·B에 속하지 않아도 좋습니다. 광주와의 연관성과 서비스 개선 기능이 담겨 있다면 주제 무제한 — 팀의 문제의식으로 자유롭게 정의하는 트랙.</p>
+        <p style="margin: auto 0 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 14px; line-height: 1.6; color: #aab8ff">완성도·실증 가능성이 높은 자율작은 별도 실증·연계 검토</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 일정 ============ -->
+<section id="schedule" class="sec">
+  <div class="wrap reveal">
+    <div class="sechead">
+      <p class="eyebrow">04 일정</p>
+      <h2>접수에서 본선까지,<br>한 달의 여정</h2>
+    </div>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(205px, 1fr))" id="steps"></div>
+  </div>
+</section>
+
+<!-- ============ 05 시상 ============ -->
+<section id="prize" class="sec">
+  <div class="wrap reveal">
+    <div class="sechead">
+      <p class="eyebrow">05 시상 · 부상</p>
+      <h2>참가 트랙별로<br>총 4팀을 시상합니다</h2>
+      <p class="lede">대학생 트랙과 중소기업 재직자 트랙 각각 최우수 1팀 · 우수 1팀을 시상하며, 주최·후원 기관장 상장이 함께 수여됩니다.</p>
+    </div>
+    <div class="grid swipe" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))">
+      <div class="glass bright" style="border-radius: 24px; padding: 40px 36px; display: flex; flex-direction: column; gap: 8px">
+        <div class="beam"></div>
+        <p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; color: #ccd6ff">최우수상 · 트랙별 1팀</p>
+        <p style="margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -0.02em">상금 + 상품</p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #c3cdfa">기관장 표창과 함께 채용 가점 연계(검토)</p>
+      </div>
+      <div class="glass" style="border-radius: 24px; padding: 40px 36px; display: flex; flex-direction: column; gap: 8px">
+        <div class="beam"></div>
+        <p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; color: #ccd6ff">우수상 · 트랙별 1팀</p>
+        <p style="margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -0.02em">상금 + AI 구독권</p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #c3cdfa">현금성 부상과 AI 구독권 · 기념품이 함께 수여됩니다</p>
+      </div>
+      <div class="glass" style="border-radius: 24px; padding: 40px 36px; display: flex; flex-direction: column; gap: 8px">
+        <div class="beam"></div>
+        <p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; color: #ccd6ff">본선 참가자 기본 특전</p>
+        <p style="margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -0.02em">$100 구독권</p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #c3cdfa">조별 ChatGPT 또는 Claude $100 1달 구독권 지급 + AI 멘토단 티칭</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 참가안내 ============ -->
+<section id="join" class="sec">
+  <div class="wrap reveal">
+    <div class="sechead">
+      <p class="eyebrow">06 참가 안내</p>
+      <h2>누가, 어떻게<br>참가하나요</h2>
+    </div>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); align-items: start">
+      <div class="glass" style="border-radius: 24px; padding: 40px 36px; display: flex; flex-direction: column; gap: 22px">
+        <div class="beam"></div>
+        <h3 style="margin: 0; font-size: 22px; font-weight: 800">참가 자격 &amp; 팀</h3>
+        <div style="display: flex; flex-direction: column; gap: 16px; font-size: 15.5px; line-height: 1.65; color: #c3cdfa">
+          <p style="margin: 0"><strong style="color: #fff">자격</strong> — 전남광주통합특별시 소재 지역 청년(만 39세 미만)</p>
+          <p style="margin: 0"><strong style="color: #fff">트랙 1</strong> (예비취업자) — 대학 재학·휴학, 졸업 후 취업 준비 중인 자</p>
+          <p style="margin: 0"><strong style="color: #fff">트랙 2</strong> (중소기업 재직자) — 고용보험 가입자 필수</p>
+          <p style="margin: 0"><strong style="color: #fff">팀 규모</strong> — 조당 2~4인 자율 구성 · 16개조 약 50명 내외</p>
+          <p style="margin: 0"><strong style="color: #fff">가점</strong> — STEP 1 사전교육 참여 시 본선 지원 가점</p>
+        </div>
+      </div>
+      <div class="glass" style="border-radius: 24px; padding: 40px 36px; display: flex; flex-direction: column; gap: 22px">
+        <div class="beam"></div>
+        <h3 style="margin: 0; font-size: 22px; font-weight: 800">심사 기준</h3>
+        <div id="criteria" style="display: flex; flex-direction: column; gap: 14px"></div>
+        <p style="margin: 0; font-size: 13.5px; line-height: 1.6; color: #aab8ff">심사위원 — 1차 심사위원단(AI 전문 멘토단) 50% + 2차 심사위원단(전남광주특별시청 대학인재정책과 팀장, 광주대 앵커(RISE)사업단장, 중진공 호남연수원장, 광주경영자총협회, GIST AI 대학원장, 광주대 사회분야 교수 등 6인) 50%</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 주최 기관 ============ -->
+<section id="hosts" class="sec">
+  <div class="wrap reveal">
+    <div class="sechead">
+      <p class="eyebrow">07 주최 · 협력 · 후원</p>
+      <h2>일곱 기관이 함께 만듭니다</h2>
+    </div>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))">
+      <div class="glass" style="padding: 32px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center">
+        <div class="beam"></div>
+        <div style="height: 72px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 0 16px; border-radius: 12px; width: 100%">
+          <img src="uploads/logo-kosme-honam.png" alt="중진공 호남연수원 로고" style="max-width: 82%; max-height: 100%; object-fit: contain">
+        </div>
+        <div>
+          <p style="margin: 0 0 6px; font-size: 16px; font-weight: 700; color: #fff">중진공 호남연수원</p>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #c3cdfa">행사 총괄 · 본선 운영 · 기업 현안(B트랙) 발굴 등</p>
+        </div>
+      </div>
+      <div class="glass" style="padding: 32px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center">
+        <div class="beam"></div>
+        <div style="height: 72px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 0 16px; border-radius: 12px; width: 100%">
+          <img src="uploads/logo-gwangju-univ-rise.png" alt="광주대학교 로고" style="max-width: 82%; max-height: 76%; object-fit: contain">
+        </div>
+        <div>
+          <p style="margin: 0 0 6px; font-size: 16px; font-weight: 700; color: #fff">광주대학교 앵커(RISE)사업단</p>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #c3cdfa">사전교육장 제공 · 참여 대학생 모집 · 리빙랩을 활용한 지역사회 현안(A트랙) 발굴 등</p>
+        </div>
+      </div>
+      <div class="glass" style="padding: 32px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center">
+        <div class="beam"></div>
+        <div style="height: 72px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 0 16px; border-radius: 12px; width: 100%">
+          <img src="uploads/logo-youthjobstation-sangmu.png" alt="광주청년일자리스테이션 상무 로고" style="max-width: 82%; max-height: 76%; object-fit: contain">
+        </div>
+        <div>
+          <p style="margin: 0 0 6px; font-size: 16px; font-weight: 700; color: #fff">광주청년일자리스테이션 상무</p>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #c3cdfa">사업 홍보 · 참여 대학생 모집 · 버스 임차 등 기타 지원</p>
+        </div>
+      </div>
+      <div class="glass" style="padding: 32px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center">
+        <div class="beam"></div>
+        <div style="height: 72px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 0 16px; border-radius: 12px; width: 100%">
+          <img src="uploads/logo-gjef-navy.png" alt="광주경영자총협회 로고" style="max-width: 82%; max-height: 76%; object-fit: contain">
+        </div>
+        <div>
+          <p style="margin: 0 0 6px; font-size: 16px; font-weight: 700; color: #fff">(사)광주경영자총협회</p>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #c3cdfa">지역 내 기업 네트워크(홍보) · 강사료 지원 등</p>
+        </div>
+      </div>
+      <div class="glass" style="padding: 32px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center">
+        <div class="beam"></div>
+        <div style="height: 72px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 0 16px; border-radius: 12px; width: 100%">
+          <img src="uploads/logo-gist-ai.jpg" alt="GIST AI 대학원 로고" style="max-width: 82%; max-height: 76%; object-fit: contain">
+        </div>
+        <div>
+          <p style="margin: 0 0 6px; font-size: 16px; font-weight: 700; color: #fff">GIST AI 대학원</p>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #c3cdfa">AI 멘토단 지원(교수, 석박사 연구생)</p>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <p class="eyebrow" style="letter-spacing: 0.24em">후원</p>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))">
+        <div class="glass" style="padding: 28px 32px; display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center">
+          <div class="beam"></div>
+          <div style="height: 58px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 0 16px; border-radius: 12px; width: 100%">
+            <img src="uploads/logo-jngj.png" alt="전남광주통합특별시 로고" style="max-width: 82%; max-height: 60%; object-fit: contain">
+          </div>
+          <div>
+            <p style="margin: 0 0 6px; font-size: 16px; font-weight: 700; color: #fff">전남광주특별시청</p>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #c3cdfa">개회식·심사 참여 · A트랙 문제 풀 지원 · 우수작 행정 실증 검토</p>
+          </div>
+        </div>
+        <div class="glass" style="padding: 28px 32px; display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center">
+          <div class="beam"></div>
+          <div style="height: 58px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 0 16px; border-radius: 12px; width: 100%">
+            <img src="uploads/logo-navercloud.png" alt="네이버클라우드 로고" style="max-width: 82%; max-height: 56%; object-fit: contain">
+          </div>
+          <div>
+            <p style="margin: 0 0 6px; font-size: 16px; font-weight: 700; color: #fff">네이버클라우드</p>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #c3cdfa">클라우드 인프라 지원</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 문의 ============ -->
+<section id="contact" class="sec" style="padding-bottom: 40px">
+  <div class="wrap reveal">
+    <div class="glass" style="border-radius: 24px; padding: 44px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+      <div class="beam"></div>
+      <div style="display: flex; flex-direction: column; gap: 10px; max-width: 560px">
+        <p class="eyebrow">08 문의</p>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.015em">궁금한 점이 있으신가요?</h3>
+        <p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: #c3cdfa">참가 자격, 팀 구성, 일정 등 대회 전반에 대한 문의를 받고 있습니다.<br>주관 — 중소벤처기업진흥공단 호남연수원 신기술연수팀</p>
+      </div>
+      <a href="mailto:toi3434@kosmes.or.kr" class="btn-primary" style="font-size: 15.5px; padding: 15px 30px">이메일 문의하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA + FOOTER ============ -->
+<section style="position: relative; overflow: hidden; background: transparent; padding: 130px 40px 0; text-align: center">
+  <div class="photo facility" data-parallax="0.05" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; aspect-ratio: 1666 / 757; pointer-events: none; z-index: 0; overflow: hidden">
+    <img src="uploads/img-facility.png" alt="야간 산과 물류센터" style="width: 100%; height: 100%; opacity: 0.88; animation: kenburns 34s ease-in-out infinite">
+  </div>
+  <div class="reveal" style="position: relative; z-index: 2; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 28px; padding-bottom: 150px">
+    <h2 class="oneline" style="margin: 0; font-size: clamp(32px, 3.8vw, 56px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1">광주의 내일을, 당신의 손으로</h2>
+    <p style="margin: 0; font-size: 18px; line-height: 1.7; color: #dde4ff">아이디어 하나면 충분합니다. 코딩은 AI가 거들 뿐 — 문제를 보는 눈이 주인공입니다.</p>
+    <a href="#" class="btn-primary apply" style="font-size: 17px; padding: 17px 36px">참가 신청하기</a>
+  </div>
+</section>
+
+<footer style="position: relative; z-index: 2; background: linear-gradient(180deg, rgba(8,16,64,0) 0%, rgba(6,11,44,0.82) 34%, #060b2c 100%); padding: 120px 40px 44px">
+  <div style="max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 13.5px; color: #8b97d9">
+    <p style="margin: 0; font-weight: 700; color: #ccd6ff">2026 광주 청년(YOUTH) AI 솔버톤</p>
+    <p style="margin: 0">주최·협력 — 중진공 호남연수원 · 광주대학교 앵커(RISE)사업단 · 광주청년일자리스테이션 상무 · 광주경영자총협회 · GIST AI 대학원 &nbsp;|&nbsp; 후원 — 전남광주특별시청 · 네이버클라우드</p>
+    <p style="margin: 0">© 2026 Gwangju Youth AI Solverthon</p>
+  </div>
+</footer>
+
+<script>
+// ---- countdown ----
+const TARGET = new Date('2026-09-03T10:00:00+09:00').getTime();
+const pad = n => String(n).padStart(2, '0');
+function tick() {
+  const ms = Math.max(0, TARGET - Date.now());
+  const dd = Math.floor(ms / 86400000);
+  document.querySelectorAll('.cd-dd').forEach(el => el.textContent = pad(dd));
+  document.querySelectorAll('.cd-hh').forEach(el => el.textContent = pad(Math.floor(ms / 3600000) % 24));
+  document.querySelectorAll('.cd-mm').forEach(el => el.textContent = pad(Math.floor(ms / 60000) % 60));
+  document.querySelectorAll('.cd-ss').forEach(el => el.textContent = pad(Math.floor(ms / 1000) % 60));
+  document.querySelectorAll('.dd-num').forEach(el => el.textContent = dd);
+}
+tick(); setInterval(tick, 1000);
+
+// ---- schedule steps ----
+const steps = [
+  { num: '접수', date: '7. 23(목) – 8. 19(수)', title: '참가 접수 · 약 4주', desc: '온라인 접수. STEP 1 사전교육 참여 시 본선 지원 가점 부여.' },
+  { num: 'STEP 1', date: '8. 22(토) · 1일(7h)', title: 'AI 사전 역량교육', desc: '광주고용복지플러스센터(미정). 오전 — 생성형 AI·프롬프트 기초, AI 에이전트 실습 / 오후 — 바이브코딩 실습(미니 프로젝트), 대회 안내.' },
+  { num: '발표', date: '8. 27(목)', title: '본선 진출자 발표', desc: '본선(9. 3~9. 4) 진출 16개조(약 50명 내외) 선정 결과 발표.' },
+  { num: 'STEP 2', date: '9. 3(목) – 9. 4(금)', title: 'AI 솔버톤 본선', desc: '호남연수원 컨벤션홀 · 1박 2일. 문제 정의 → 솔루션 설계 → 바이브코딩 집중 제작, AI 멘토단 피드백.' },
+  { num: '피날레', date: '9. 4(금) 15:00', title: '성과발표회 · 시상', desc: '조별 5분 발표와 시연. 트랙별 심사·시상·수료, 우수작은 실증·도입 검토로 연결.' }
+];
+document.getElementById('steps').innerHTML = steps.map(s => `
+  <div class="glass" style="padding: 34px 30px; display: flex; flex-direction: column; gap: 10px">
+    <div class="beam"></div>
+    <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #8fa3ff">${s.num}</p>
+    <p style="margin: 0; font-size: 15px; font-weight: 700; color: #dde4ff">${s.date}</p>
+    <h3 style="margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.01em">${s.title}</h3>
+    <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #c3cdfa">${s.desc}</p>
+  </div>`).join('');
+
+// ---- criteria bars ----
+const criteria = [
+  { name: '문제 정의 적절성', pct: 25 },
+  { name: 'AI 활용도 · 구현성', pct: 25 },
+  { name: '실무 · 현장 적용 가능성', pct: 20 },
+  { name: '창의성', pct: 15 },
+  { name: '발표 · 공감도', pct: 15 }
+];
+document.getElementById('criteria').innerHTML = criteria.map(c => `
+  <div style="display: flex; flex-direction: column; gap: 6px">
+    <div style="display: flex; justify-content: space-between; font-size: 15px"><span style="font-weight: 600">${c.name}</span><span style="color: #8fa3ff; font-weight: 700; font-variant-numeric: tabular-nums">${c.pct}</span></div>
+    <div style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.1)"><div style="height: 100%; border-radius: 999px; background: linear-gradient(90deg, #4f68f5, #8fa3ff); width: ${c.pct}%"></div></div>
+  </div>`).join('');
+
+// ---- reveal on enter ----
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ---- parallax ----
+const layers = Array.from(document.querySelectorAll('[data-parallax]'));
+let raf = 0;
+function onScroll() {
+  if (raf) return;
+  raf = requestAnimationFrame(() => {
+    raf = 0;
+    const vh = window.innerHeight;
+    layers.forEach(el => {
+      const f = parseFloat(el.getAttribute('data-parallax')) || 0.1;
+      const r = el.parentElement.getBoundingClientRect();
+      const progress = (r.top + r.height / 2 - vh / 2);
+      el.style.marginTop = (progress * -f).toFixed(1) + 'px';
+    });
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// ---- hamburger menu ----
+const overlay = document.querySelector('.menu-overlay');
+const burger = document.querySelector('.hamburger');
+const bars = burger.querySelectorAll('.bar');
+function setMenu(open) {
+  overlay.classList.toggle('open', open);
+  bars[0].style.transform = open ? 'translateY(7px) rotate(45deg)' : 'none';
+  bars[1].style.opacity = open ? 0 : 1;
+  bars[2].style.transform = open ? 'translateY(-7px) rotate(-45deg)' : 'none';
+}
+burger.addEventListener('click', () => setMenu(!overlay.classList.contains('open')));
+overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+// ---- apply buttons → toast (온라인 접수 오픈 전) ----
+const toast = document.getElementById('toast');
+let toastTimer;
+document.querySelectorAll('.apply').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+}));
+</script>
+</body>
+</html>

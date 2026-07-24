@@ -231,7 +231,7 @@ section[id], header#top { scroll-margin-top: 80px; }
     <div class="sechead">
       <p class="eyebrow">01 소개</p>
       <h2 class="oneline" style="font-size: clamp(30px, 3.3vw, 45px); text-wrap: nowrap">문제를 직접 해결해 본 경험이, 곧 경쟁력이 됩니다</h2>
-      <p class="lede">생성형 AI와 바이브코딩의 확산으로 비전공자도 아이디어를 실제 서비스로 만드는 시대. 전남광주 청년에게 'AI로 문제를 직접 해결해 본 경험'은 그 자체로 취업 경쟁력이자 포트폴리오입니다.</p>
+      <p class="lede">생성형 AI와 바이브코딩의 확산으로 비전공자도 아이디어를 실제 서비스로 만드는 시대.<br>전남광주 청년에게 'AI로 문제를 직접 해결해 본 경험'은 그 자체로 취업 경쟁력이자 포트폴리오입니다.</p>
     </div>
     <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))">
       <div class="glass" style="padding: 36px 32px; display: flex; flex-direction: column; gap: 12px">
@@ -289,7 +289,7 @@ section[id], header#top { scroll-margin-top: 80px; }
   <div class="wrap reveal">
     <div class="sechead">
       <p class="eyebrow">03 트랙</p>
-      <h2>3개의 트랙 내에서,<br>당신의 상상력을 마음껏 발휘하세요.</h2>
+      <h2>3개의 트랙 내에서,<br>상상력을 마음껏 발휘하세요.</h2>
       <p class="lede">본인이 개선하고 싶은 문제와 현안들을 1가지 자유로이 선택하고, 결과물 또한 어떠한 방식이든 무제한으로 만들어주세요. * 관련 참고자료 제공</p>
     </div>
     <div class="grid swipe" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))">
@@ -339,7 +339,7 @@ section[id], header#top { scroll-margin-top: 80px; }
         <div class="beam"></div>
         <p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; color: #ccd6ff">최우수상 · 트랙별 1팀</p>
         <p style="margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -0.02em">200만원 상당</p>
-        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #c3cdfa">현금 100만원 + ChatGPT 또는 Claude $100 계정 6개월 무료지원 · 채용 가점 연계(검토)</p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #c3cdfa">현금 100만원 + ChatGPT 또는 Claude $100 계정 6개월 무료지원</p>
       </div>
       <div class="glass" style="border-radius: 24px; padding: 40px 36px; display: flex; flex-direction: column; gap: 8px">
         <div class="beam"></div>
@@ -379,7 +379,6 @@ section[id], header#top { scroll-margin-top: 80px; }
           <p style="margin: 0"><strong style="color: #fff">트랙 1</strong> (예비취업자) — 대학 재학·휴학, 졸업 후 취업 준비 중인 자</p>
           <p style="margin: 0"><strong style="color: #fff">트랙 2</strong> (중소기업 재직자) — 고용보험 가입자 필수</p>
           <p style="margin: 0"><strong style="color: #fff">팀 규모</strong> — 조당 2~4인 자율 구성 · 16개조 약 50명 내외</p>
-          <p style="margin: 0"><strong style="color: #fff">가점</strong> — STEP 1 사전교육 참여 시 본선 지원 가점</p>
         </div>
       </div>
       <div class="glass" style="border-radius: 24px; padding: 40px 36px; display: flex; flex-direction: column; gap: 22px">
@@ -527,9 +526,9 @@ tick(); setInterval(tick, 1000);
 
 // ---- schedule steps ----
 const steps = [
-  { num: '접수', date: '7. 24(금) – 8. 19(수)', title: '참가 접수 · 약 4주', desc: '온라인 접수. STEP 1 사전교육 참여 시 본선 지원 가점 부여.' },
-  { num: 'STEP 1', date: '8. 22(토) · 1일(7h)', title: 'AI 사전 역량교육', desc: '광주고용복지플러스센터. 오전 — 생성형 AI·프롬프트 기초, AI 에이전트 실습 / 오후 — 바이브코딩 실습(미니 프로젝트), 대회 안내.' },
-  { num: '발표', date: '8. 27(목)', title: '본선 진출자 발표', desc: '본선(9. 3~9. 4) 진출 16개조(약 50명 내외) 선정 결과 발표.' },
+  { num: '접수', date: '7. 24(금) – 8. 19(수)', title: '참가 접수 · 약 4주', desc: '온라인 접수. STEP 1 사전교육(8.22) 전원 의무 참석.' },
+  { num: 'STEP 1', date: '8. 22(토) · 1일(7h)', title: 'AI 사전 역량교육', desc: '장소: 광주고용복지플러스센터, 내용: 생성형 AI 에이전트 활용, AI 바이브코딩 숙달 등 참가자 수준별 교육 진행.' },
+  { num: '발표', date: '8. 27(목)', title: '본선 진출자 발표', desc: '본선 대회(9.3~9.4) 진출자 16개조(약 50여명) 선정 및 결과 발표.' },
   { num: 'STEP 2', date: '9. 3(목) – 9. 4(금)', title: 'AI 솔버톤 본선', desc: '호남연수원 컨벤션홀 · 1박 2일. 문제 정의 → 솔루션 설계 → 바이브코딩 집중 제작, AI 멘토단 피드백.' },
   { num: '피날레', date: '9. 4(금) 15:00', title: '성과발표회 · 시상', desc: '조별 5분 발표와 시연. 트랙별 심사·시상·수료, 우수작은 실증·도입 검토로 연결.' }
 ];
